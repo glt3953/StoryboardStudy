@@ -29,8 +29,7 @@
     
 }
 
-- (void)handleLongpressGesture:(UILongPressGestureRecognizer *)gesture
-{
+- (void)handleLongpressGesture:(UILongPressGestureRecognizer *)gesture {
     CGPoint startPoint = CGPointZero;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
