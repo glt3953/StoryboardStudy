@@ -11,7 +11,7 @@
 @interface TransformViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *transformImageView;
-@property (nonatomic) double angle;
+@property (nonatomic) double angle;//angle角度
 
 @end
 
@@ -30,11 +30,41 @@
     
     _angle = 0;
     [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(transformAction) userInfo:nil repeats:YES];
+    
+    [self sortArray];
+}
+
+//数组排序例程
+- (void)sortArray {
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:@"abd", @"abc", @"acd", @"ad1", @"ac2", nil];
+    array = [NSMutableArray arrayWithObjects:@"-10.01", @"0.98", @"1.32", @"-0.21", @"-0.0", nil];
+    // 升序
+    [array sortUsingComparator:^NSComparisonResult(__strong id obj1, __strong id obj2) {
+        NSString *str1 = (NSString *)obj1;
+        NSString *str2 = (NSString *)obj2;
+        return [str1 compare:str2];
+    }];
+    NSLog(@"升序：%@", [array debugDescription]);
+    
+    // 降序
+    [array sortUsingComparator:^NSComparisonResult(__strong id obj1, __strong id obj2){
+        NSString *str1 = (NSString *)obj1;
+        NSString *str2 = (NSString *)obj2;
+        return [str2 compare:str1];
+    }];
+    NSLog(@"降序：%@", [array debugDescription]);
+    
+    //创建人
+    NSMutableArray *users = [NSMutableArray arrayWithObjects:@{@"pinyin":@"ceshishouji2"}, @{@"pinyin":@"fuwei"}, @{@"pinyin":@"congyushuai"}, @{@"pinyin":@"zhoubo"}, @{@"pinyin":@"jeff"}, @{@"pinyin":@"ceshishouji1"}, nil];
+    //按照字母升序排列
+    NSSortDescriptor * sortByKey = [NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES];
+    [users sortUsingDescriptors:[NSArray arrayWithObject:sortByKey]];
 }
 
 - (void)transformAction {
-    _angle = _angle + 0.01;//angle角度 double angle;
-    if (_angle > M_PI * 2) {//大于 M_PI*2(360度) 角度再次从0开始
+    _angle = _angle + 0.01;
+    //大于 M_PI*2(360度) 角度再次从0开始
+    if (_angle > M_PI * 2) {
         _angle = 0;
     }
     
