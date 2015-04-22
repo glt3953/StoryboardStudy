@@ -88,7 +88,8 @@
 //数组排序例程
 - (void)sortedArray {
     NSMutableArray *array = [NSMutableArray arrayWithObjects:@"abd", @"abc", @"acd", @"ad1", @"ac2", nil];
-    array = [NSMutableArray arrayWithObjects:@"-10.01", @"0.98", @"1.32", @"-0.21", @"-0.0", nil];
+//    array = [NSMutableArray arrayWithObjects:@"-10.01", @"0.98", @"1.32", @"-0.21", @"-0.0", nil];
+    array = [NSMutableArray arrayWithObjects:@"65.165", @"600", @"575.009", @"560", @"500", @"500", @"500", @"450", @"40", @"3000", @"300", @"2750.75", @"2073.25", @"200000", @"2000", @"2000", @"2000", @"200", @"200", @"143832.7914", @"117", @"1060", @"10000", @"1000", @"1000", @"1000", nil];
     // 升序
     [array sortUsingComparator:^NSComparisonResult(__strong id obj1, __strong id obj2) {
         NSString *str1 = (NSString *)obj1;
