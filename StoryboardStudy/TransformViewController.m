@@ -31,11 +31,62 @@
     _angle = 0;
     [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(transformAction) userInfo:nil repeats:YES];
     
-    [self sortArray];
+    [self sortedArray];
+    [self filteredArray];
+}
+
+//数组过滤例程
+- (void)filteredArray {
+    //需要去掉的元素数组
+    NSMutableArray *filteredArray = [[NSMutableArray alloc]initWithObjects:@"1", @"4", nil];
+    //需要被筛选的数组
+    NSMutableArray *dataArray = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"1", @"4", @"6", @"1", @"1", @"4", @"1", @"6", @"4", nil];
+    
+    /*
+     方法一：利用NSPredicate
+     注：NSPredicate所属Cocoa框架，在密码、用户名等正则判断中经常用到。
+     类似于SQL语句
+     NOT 不是
+     SELF 代表字符串本身
+     IN 范围运算符
+     那么NOT (SELF IN %@) 意思就是：不是这里所指定的字符串的值
+    */
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", filteredArray];
+    //过滤数组
+    NSArray *reslutFilteredArray = [dataArray filteredArrayUsingPredicate:filterPredicate];
+    NSLog(@"Reslut Filtered Array = %@", reslutFilteredArray);
+    /*
+     结果：
+     Reslut Filtered Array = (
+     2,
+     6,
+     6
+     )
+    */
+    
+    /*
+     方法二：从后往前遍历数组，然后匹配删除
+    */
+    int i = (int)[dataArray count]-1;
+    for(;i >= 0;i--){
+        //containsObject 判断元素是否存在于数组中(根据两者的内存地址判断，相同：YES  不同：NO）
+        if([filteredArray containsObject:[dataArray objectAtIndex:i]]) {
+            [dataArray removeObjectAtIndex:i];
+        }
+    }
+    NSLog(@"Data Array = %@", dataArray);
+    /* 
+     结果： 
+     Data Array = ( 
+     2, 
+     6, 
+     6 
+     ) 
+    */
 }
 
 //数组排序例程
-- (void)sortArray {
+- (void)sortedArray {
     NSMutableArray *array = [NSMutableArray arrayWithObjects:@"abd", @"abc", @"acd", @"ad1", @"ac2", nil];
     array = [NSMutableArray arrayWithObjects:@"-10.01", @"0.98", @"1.32", @"-0.21", @"-0.0", nil];
     // 升序
@@ -57,7 +108,7 @@
     //创建人
     NSMutableArray *users = [NSMutableArray arrayWithObjects:@{@"pinyin":@"ceshishouji2"}, @{@"pinyin":@"fuwei"}, @{@"pinyin":@"congyushuai"}, @{@"pinyin":@"zhoubo"}, @{@"pinyin":@"jeff"}, @{@"pinyin":@"ceshishouji1"}, nil];
     //按照字母升序排列
-    NSSortDescriptor * sortByKey = [NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES];
+    NSSortDescriptor *sortByKey = [NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES];
     [users sortUsingDescriptors:[NSArray arrayWithObject:sortByKey]];
 }
 
